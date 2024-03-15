@@ -9,7 +9,7 @@
 
 <body>
   <div class="container">
-    <span class="preload hide">Подождите, идет загрузка комментариев...</span>
+    <span class="preload">Подождите, идет загрузка комментариев...</span>
     <ul class="comments" id="comments">
       <!-- Ы -->
       <!-- </li>
@@ -47,9 +47,9 @@
     background-color: red;
   }
 
-  /* .hide {
+  .hide {
     display: none;
-  } */
+  }
 </style>
 
 
@@ -64,7 +64,6 @@
   const commentElements = document.querySelectorAll(".comment");
   const likeButtonsElement = document.querySelectorAll(".likes");
   const preloader = document.querySelector('.preload');
-
 
   // массив
   let comments = [
@@ -87,8 +86,6 @@
     const fetchPromise = fetch("https://wedev-api.sky.pro/api/v1/alenka-s/comments", {
       method: "GET",
     })
-
-
     fetchPromise
       .then((response) => {
         const jsonPromise = response.json();
@@ -104,8 +101,8 @@
               isLiked: false,
             };
           });
+          let hidePreload = document.querySelector(".preload").style.display = "none";
           renderComments();
-          preloader.classList.add('hide');
         });
       });
   }
