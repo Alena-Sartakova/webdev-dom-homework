@@ -9,6 +9,7 @@
 
 <body>
   <div class="container">
+    <span class="preload hide">Подождите, идет загрузка комментариев...</span>
     <ul class="comments" id="comments">
       <!-- Ы -->
       <!-- </li>
@@ -45,6 +46,10 @@
   .error {
     background-color: red;
   }
+
+  /* .hide {
+    display: none;
+  } */
 </style>
 
 
@@ -58,7 +63,7 @@
   const commentInputElement = document.getElementById("comment-input");
   const commentElements = document.querySelectorAll(".comment");
   const likeButtonsElement = document.querySelectorAll(".likes");
-
+  const preloader = document.querySelector('.preload');
 
 
   // массив
@@ -81,26 +86,31 @@
   function fetchRender() {
     const fetchPromise = fetch("https://wedev-api.sky.pro/api/v1/alenka-s/comments", {
       method: "GET",
-    });
-    fetchPromise.then((response) => {
-      const jsonPromise = response.json();
+    })
 
-      jsonPromise.then((responseData) => {
-        console.log(responseData);
-        comments = responseData.comments.map((comment) => {
-          return {
-            name: comment.author.name,
-            time: new Date(comment.date).toLocaleTimeString('sm', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' }),
-            comment: comment.text,
-            likes: comment.likes,
-            isLiked: false,
-          };
+
+    fetchPromise
+      .then((response) => {
+        const jsonPromise = response.json();
+
+        jsonPromise.then((responseData) => {
+          console.log(responseData);
+          comments = responseData.comments.map((comment) => {
+            return {
+              name: comment.author.name,
+              time: new Date(comment.date).toLocaleTimeString('sm', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' }),
+              comment: comment.text,
+              likes: comment.likes,
+              isLiked: false,
+            };
+          });
+          renderComments();
+          preloader.classList.add('hide');
         });
-        renderComments();
       });
-    });
   }
   fetchRender();
+
 
   buttonElement.addEventListener("click", () => {
     if (commentInputElement.value === "") {
