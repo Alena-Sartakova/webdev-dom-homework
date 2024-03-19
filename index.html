@@ -9,6 +9,7 @@
 
 <body>
   <div class="container">
+    <span class="preload">Подождите, идет загрузка комментариев...</span>
     <ul class="comments" id="comments">
       <!-- Ы -->
       <!-- </li>
@@ -45,6 +46,10 @@
   .error {
     background-color: red;
   }
+
+  .hide {
+    display: none;
+  }
 </style>
 
 
@@ -58,7 +63,7 @@
   const commentInputElement = document.getElementById("comment-input");
   const commentElements = document.querySelectorAll(".comment");
   const likeButtonsElement = document.querySelectorAll(".likes");
-
+  const preloader = document.querySelector('.preload');
 
 
   // массив
@@ -96,6 +101,7 @@
             isLiked: false,
           };
         });
+        let hidePreload = document.querySelector(".preload").style.display = "none";
         renderComments();
       });
     });
@@ -106,6 +112,11 @@
     if (commentInputElement.value === "") {
       return;
     }
+
+    buttonElement.disabled = true;
+    buttonElement.textContent = 'Добавление...';
+    const startAt = Date.now();
+    console.log("Начинаем делать запрос");
 
     fetch("https://wedev-api.sky.pro/api/v1/alenka-s/comments", {
       method: "POST",
@@ -120,13 +131,65 @@
           .replaceAll(">", "&gt")
           .replaceAll("&", "&amp;")
           .replaceAll('"', "&quot;"),
+        forceError: true,
       }),
-    }).then((response) => {
-      response.json().then((responseData) => {
-      });
-      fetchRender();
-    });
+    })
+      //Ошибки       
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          return response.json();;
+        }
 
+        if (response.status === 500) {
+          throw new Error('Сервер сломался');
+        }
+        if (response.status === 400) {
+          throw new Error('Плохой запрос');
+        }
+        return response.json();
+      })
+      .then((response) => {
+        console.log("Время: " + (Date.now() - startAt));
+        return response;
+      })
+
+      .then((response) => {
+        console.log("Время: " + (Date.now() - startAt));
+        return response;
+      })
+
+      .then(() => {
+        fetchRender();
+      })
+
+      .then(() => {
+        buttonElement.disabled = false;
+        buttonElement.textContent = 'Написать';
+        nameInputElement.value = "";
+        commentInputElement.value = "";
+      })
+
+      .catch((error) => {
+        if (error.message === "Сервер сломался") {
+          alert("Сервер сломался, попробуй позже");
+          return;
+        }
+
+        if (error.message === "Плохой запрос") {
+          alert("Ты сделал ошибку в запросе, исправь данные и попробуй снова");
+          return;
+        }
+
+        alert('Произошла ошибка');
+        console.warn(error);
+        console.warn(error);
+      })
+      .finally(() => {
+        buttonElement.disabled = false;
+        buttonElement.textContent = 'Написать';
+      })
+    fetchRender();
   });
 
 
@@ -243,8 +306,7 @@
     renderComments();
     initEventListeners();
     replyToComment();
-    nameInputElement.value = "";
-    commentInputElement.value = "";
+
 
   });
 
