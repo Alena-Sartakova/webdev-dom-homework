@@ -1,4 +1,7 @@
+import { postComment } from "./api.js";
+import { getComment } from "./api.js";
 
+import { renderComments } from "./renderComments.js";
 
 // Код тут
 // Поиск элементов
@@ -15,9 +18,7 @@ const preloader = document.querySelector('.preload');
 let comments = [];
 
 function fetchRender() {
-    const fetchPromise = fetch("https://wedev-api.sky.pro/api/v1/alenka-s/comments", {
-        method: "GET",
-    });
+    const fetchPromise = getComment();
     fetchPromise.then((response) => {
         const jsonPromise = response.json();
 
@@ -33,11 +34,12 @@ function fetchRender() {
                 };
             });
             let hidePreload = document.querySelector(".preload").style.display = "none";
-            renderComments();
+            renderComments({ comments });
         });
     });
 }
 fetchRender();
+
 
 buttonElement.addEventListener("click", () => {
     if (commentInputElement.value === "") {
@@ -48,23 +50,7 @@ buttonElement.addEventListener("click", () => {
     buttonElement.textContent = 'Добавление...';
     const startAt = Date.now();
     console.log("Начинаем делать запрос");
-
-    fetch("https://wedev-api.sky.pro/api/v1/alenka-s/comments", {
-        method: "POST",
-        body: JSON.stringify({
-            name: nameInputElement.value
-                .replaceAll("<", "&lt")
-                .replaceAll(">", "&gt")
-                .replaceAll("&", "&amp;")
-                .replaceAll('"', "&quot;"),
-            text: commentInputElement.value
-                .replaceAll("<", "&lt")
-                .replaceAll(">", "&gt")
-                .replaceAll("&", "&amp;")
-                .replaceAll('"', "&quot;"),
-            forceError: true,
-        }),
-    })
+    postComment()
         //Ошибки       
         .then((response) => {
             console.log(response);
@@ -126,7 +112,7 @@ buttonElement.addEventListener("click", () => {
 
 
 //Ответ на коммент
-const replyToComment = () => {
+export const replyToComment = () => {
     const commentBodys = document.querySelectorAll(".comment-body");
     for (const commentBody of commentBodys) {
         commentBody.addEventListener('click', () => {
@@ -138,9 +124,33 @@ const replyToComment = () => {
         })
     }
 };
+//Лайк
+export const initEventListeners = () => {
+    const likesElements = document.querySelectorAll(".like-button");
+    for (const likesElement of likesElements) {
+        likesElement.addEventListener("click", () => {
+            const index = likesElement.dataset.index;
 
+            console.log(comments[index].likes);
+            if (comments[index].isLiked) {
+                comments[index].isLiked = false;
+                comments[index].likes--;
+            } else {
+                comments[index].isLiked = true;
+                comments[index].likes++;
+            }
+            renderComments({ comments });
+
+        });
+    }
+};
+
+renderComments({ comments });
+initEventListeners();
 // Рендер
-const renderComments = () => {
+renderComments({ comments });
+
+/* const renderComments = () => {
     const commentsHtml = comments.map((comment, index) => {
         return `<li class="comment">
         <div class="comment-header">
@@ -166,32 +176,10 @@ const renderComments = () => {
     listElement.innerHTML = commentsHtml;
     replyToComment();
     initEventListeners();
-};
+}; */
 replyToComment();
 
-//Лайк
-const initEventListeners = () => {
-    const likesElements = document.querySelectorAll(".like-button");
-    for (const likesElement of likesElements) {
-        likesElement.addEventListener("click", () => {
-            const index = likesElement.dataset.index;
 
-            console.log(comments[index].likes);
-            if (comments[index].isLiked) {
-                comments[index].isLiked = false;
-                comments[index].likes--;
-            } else {
-                comments[index].isLiked = true;
-                comments[index].likes++;
-            }
-            renderComments();
-
-        });
-    }
-};
-
-renderComments();
-initEventListeners();
 // Дата и время
 
 
@@ -218,7 +206,7 @@ buttonElement.addEventListener("click", () => {
     }
 
 
-    renderComments();
+    renderComments({ comments });
     initEventListeners();
     replyToComment();
 
