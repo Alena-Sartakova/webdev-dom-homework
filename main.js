@@ -1,9 +1,8 @@
 import { postComment } from "./api.js";
 import { getComment } from "./api.js";
-
 import { renderComments } from "./renderComments.js";
 
-// Код тут
+
 // Поиск элементов
 const buttonElement = document.getElementById("add-button");
 const listElement = document.getElementById("comments");
@@ -66,16 +65,6 @@ buttonElement.addEventListener("click", () => {
             }
             return response.json();
         })
-        .then((response) => {
-            console.log("Время: " + (Date.now() - startAt));
-            return response;
-        })
-
-        .then((response) => {
-            console.log("Время: " + (Date.now() - startAt));
-            return response;
-        })
-
         .then(() => {
             fetchRender();
         })
@@ -110,7 +99,6 @@ buttonElement.addEventListener("click", () => {
 });
 
 
-
 //Ответ на коммент
 export const replyToComment = () => {
     const commentBodys = document.querySelectorAll(".comment-body");
@@ -124,6 +112,7 @@ export const replyToComment = () => {
         })
     }
 };
+
 //Лайк
 export const initEventListeners = () => {
     const likesElements = document.querySelectorAll(".like-button");
@@ -147,41 +136,10 @@ export const initEventListeners = () => {
 
 renderComments({ comments });
 initEventListeners();
-// Рендер
-renderComments({ comments });
-
-/* const renderComments = () => {
-    const commentsHtml = comments.map((comment, index) => {
-        return `<li class="comment">
-        <div class="comment-header">
-            <div>${comment.name}</div>
-            <div>${comment.time}</div>
-        </div>
-        <div class="comment-body" data-text="${comment.comment}" data-name="${comment.name}">
-            <div class="comment-text" data-index="${index}">
-                ${comment.comment}
-            </div>
-        </div>
-        <div class="comment-footer">
-            <div class="likes">
-                <div class="likes">
-                    <span class="likes-counter">${comments[index].likes}</span>
-                    <button data-index="${index}" class="like-button ${comment.isLiked ? "-active-like" : ""
-            }"></button>
-            </div>
-        </div>
-    </li> `;
-    }).join('');
-
-    listElement.innerHTML = commentsHtml;
-    replyToComment();
-    initEventListeners();
-}; */
 replyToComment();
 
 
 // Дата и время
-
 
 let addTimeElement = new Date();
 let year = addTimeElement.getFullYear().toString().slice(-2);
@@ -204,7 +162,6 @@ buttonElement.addEventListener("click", () => {
         commentInputElement.classList.add("error");
         return;
     }
-
 
     renderComments({ comments });
     initEventListeners();
