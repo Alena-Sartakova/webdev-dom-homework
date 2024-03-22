@@ -12,12 +12,9 @@ const commentInputElement = document.getElementById("comment-input");
 // массив
 let comments = [];
 
-function fetchRender() {
+export function fetchRender() {
     getComment()
-    .then((response) => {
-        const jsonPromise = response.json();
-
-        jsonPromise.then((responseData) => {
+           .then((responseData) => {
             console.log(responseData);
             comments = responseData.comments.map((comment) => {
                 return {
@@ -30,9 +27,9 @@ function fetchRender() {
             });
             let hidePreload = document.querySelector(".preload").style.display = "none";
             renderComments({ comments });
-        });
-    });
-}
+        })
+};
+
 fetchRender();
 
 
@@ -43,24 +40,8 @@ buttonElement.addEventListener("click", () => {
 
     buttonElement.disabled = true;
     buttonElement.textContent = 'Добавление...';
-    const startAt = Date.now();
     console.log("Начинаем делать запрос");
-    postComment()
-        //Ошибки       
-        .then((response) => {
-            console.log(response);
-            if (response.status === 200) {
-                return response.json();;
-            }
-
-            if (response.status === 500) {
-                throw new Error('Сервер сломался');
-            }
-            if (response.status === 400) {
-                throw new Error('Плохой запрос');
-            }
-            return response.json();
-        })
+    postComment() 
         .then(() => {
             fetchRender();
         })
@@ -85,12 +66,13 @@ buttonElement.addEventListener("click", () => {
 
             alert('Произошла ошибка');
             console.warn(error);
-            console.warn(error);
+
         })
         .finally(() => {
             buttonElement.disabled = false;
             buttonElement.textContent = 'Написать';
-        })
+        });
+
 
 });
 
@@ -136,7 +118,7 @@ replyToComment();
 
 
 
-// Обработчик клика
+// Обработчик клика, пробелы в полях
 
 buttonElement.addEventListener("click", () => {
     nameInputElement.classList.remove("error");
