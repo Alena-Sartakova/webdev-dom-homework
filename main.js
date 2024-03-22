@@ -5,20 +5,16 @@ import { renderComments } from "./renderComments.js";
 
 // Поиск элементов
 const buttonElement = document.getElementById("add-button");
-const listElement = document.getElementById("comments");
 const nameInputElement = document.getElementById("name-input");
 const commentInputElement = document.getElementById("comment-input");
-const commentElements = document.querySelectorAll(".comment");
-const likeButtonsElement = document.querySelectorAll(".likes");
-const preloader = document.querySelector('.preload');
 
 
 // массив
 let comments = [];
 
 function fetchRender() {
-    const fetchPromise = getComment();
-    fetchPromise.then((response) => {
+    getComment()
+    .then((response) => {
         const jsonPromise = response.json();
 
         jsonPromise.then((responseData) => {
@@ -83,7 +79,7 @@ buttonElement.addEventListener("click", () => {
             }
 
             if (error.message === "Плохой запрос") {
-                alert("Ты сделал ошибку в запросе, исправь данные и попробуй снова");
+                alert("Имя и/или комментарий составляет менее 3-х символов");
                 return;
             }
 
@@ -139,14 +135,6 @@ initEventListeners();
 replyToComment();
 
 
-// Дата и время
-
-let addTimeElement = new Date();
-let year = addTimeElement.getFullYear().toString().slice(-2);
-let minutes = addTimeElement.getMinutes() < 10 ? '0' + addTimeElement.getMinutes() : addTimeElement.getMinutes();
-let hours = addTimeElement.getHours() < 10 ? '0' + addTimeElement.getHours() : addTimeElement.getHours();
-let date = addTimeElement.getDate() < 10 ? '0' + addTimeElement.getDate() : addTimeElement.getDate();
-let month = addTimeElement.getMonth() < 10 ? '0' + addTimeElement.getMonth() : addTimeElement.getMonth();
 
 // Обработчик клика
 
