@@ -1,11 +1,8 @@
-import { postComment } from "./api.js";
 import { getComment } from "./api.js";
 import { renderComments } from "./renderComments.js";
-
+import { initAddCommentListeners } from "./listeners.js";
 
 // Поиск элементов
-const buttonElement = document.getElementById("add-button");
-const nameInputElement = document.getElementById("name-input");
 const commentInputElement = document.getElementById("comment-input");
 
 
@@ -32,62 +29,7 @@ export function fetchRender() {
 
 fetchRender();
 
-
-buttonElement.addEventListener("click", () => {
-    nameInputElement.classList.remove("error");
-    commentInputElement.classList.remove("error");
-
-    if (nameInputElement.value.trim() === "") {
-        nameInputElement.classList.add("error");
-        return;
-    }
-    if (commentInputElement.value.trim() === "") {
-        commentInputElement.classList.add("error");
-        return;
-    }
-
-    if (commentInputElement.value === "") {
-        return;
-    }
-
-    buttonElement.disabled = true;
-    buttonElement.textContent = 'Добавление...';
-    console.log("Начинаем делать запрос");
-    postComment()
-        .then(() => {
-            fetchRender();
-        })
-
-        .then(() => {
-            buttonElement.disabled = false;
-            buttonElement.textContent = 'Написать';
-            nameInputElement.value = "";
-            commentInputElement.value = "";
-        })
-
-        .catch((error) => {
-            if (error.message === "Сервер сломался") {
-                alert("Сервер сломался, попробуй позже");
-                return;
-            }
-
-            if (error.message === "Плохой запрос") {
-                alert("Имя и/или комментарий составляет менее 3-х символов");
-                return;
-            }
-
-            alert('Произошла ошибка');
-            console.warn(error);
-
-        })
-        .finally(() => {
-            buttonElement.disabled = false;
-            buttonElement.textContent = 'Написать';
-        });
-
-
-});
-
+initAddCommentListeners();
 
 //Ответ на коммент
 export const replyToComment = () => {
@@ -104,6 +46,7 @@ export const replyToComment = () => {
 };
 
 //Лайк
+
 export const initEventListeners = () => {
     const likesElements = document.querySelectorAll(".like-button");
     for (const likesElement of likesElements) {
