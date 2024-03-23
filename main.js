@@ -14,7 +14,7 @@ let comments = [];
 
 export function fetchRender() {
     getComment()
-           .then((responseData) => {
+        .then((responseData) => {
             console.log(responseData);
             comments = responseData.comments.map((comment) => {
                 return {
@@ -34,6 +34,18 @@ fetchRender();
 
 
 buttonElement.addEventListener("click", () => {
+    nameInputElement.classList.remove("error");
+    commentInputElement.classList.remove("error");
+
+    if (nameInputElement.value.trim() === "") {
+        nameInputElement.classList.add("error");
+        return;
+    }
+    if (commentInputElement.value.trim() === "") {
+        commentInputElement.classList.add("error");
+        return;
+    }
+
     if (commentInputElement.value === "") {
         return;
     }
@@ -41,7 +53,7 @@ buttonElement.addEventListener("click", () => {
     buttonElement.disabled = true;
     buttonElement.textContent = 'Добавление...';
     console.log("Начинаем делать запрос");
-    postComment() 
+    postComment()
         .then(() => {
             fetchRender();
         })
@@ -116,28 +128,5 @@ renderComments({ comments });
 initEventListeners();
 replyToComment();
 
-
-
-// Обработчик клика, пробелы в полях
-
-buttonElement.addEventListener("click", () => {
-    nameInputElement.classList.remove("error");
-    commentInputElement.classList.remove("error");
-
-    if (nameInputElement.value.trim() === "") {
-        nameInputElement.classList.add("error");
-        return;
-    }
-    if (commentInputElement.value.trim() === "") {
-        commentInputElement.classList.add("error");
-        return;
-    }
-
-    renderComments({ comments });
-    initEventListeners();
-    replyToComment();
-
-
-});
 
 console.log("It works!");
