@@ -2,7 +2,7 @@ const nameInputElement = document.getElementById("name-input");
 const commentInputElement = document.getElementById("comment-input");
 
 let host = "https://wedev-api.sky.pro/api/v2/alenka-s/comments";
-const hostReg = 'https://wedev-api.sky.pro/api/user';
+const hostReg = 'https://wedev-api.sky.pro/api/user/login';
 
 let token = 'Bearer asb4c4boc86gasb4c4boc86g37w3cc3bo3b83k4g37k3bk3cg3c03ck4k';
 
