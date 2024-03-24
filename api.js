@@ -2,10 +2,12 @@ const nameInputElement = document.getElementById("name-input");
 const commentInputElement = document.getElementById("comment-input");
 
 let host = "https://wedev-api.sky.pro/api/v2/alenka-s/comments";
-const hostReg = 'https://wedev-api.sky.pro/api/user/login';
+const hostReg = "https://wedev-api.sky.pro/api/user/login";
 
-let token = 'Bearer asb4c4boc86gasb4c4boc86g37w3cc3bo3b83k4g37k3bk3cg3c03ck4k';
-
+export let token;
+export const setToken = (newToken) => {
+    token = newToken;
+};
 
 export let UserName;
 export function setUserName(newName) {
@@ -32,7 +34,7 @@ export function getComment() {
         })
 
         .catch((error) => {
-            alert("Произошла ошибка при выполнении запроса");
+            // alert("Произошла ошибка при выполнении запроса");
             console.error("Произошла ошибка при выполнении GET-запроса:", error);
         });
 }
@@ -43,7 +45,7 @@ export function postComment() {
         method: "POST",
         body: JSON.stringify({
             headers: {
-                Authorization: token,
+                Authorization: `Bearer ${token}`,
             },
             name: nameInputElement.value
                 .replaceAll("&", "&amp;")
