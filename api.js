@@ -39,7 +39,7 @@ export function getComment() {
 
 
 export function postComment() {
-    return fetch(host, {
+    return fetch(hostReg, {
         method: "POST",
         body: JSON.stringify({
             headers: {
