@@ -4,10 +4,8 @@ const commentInputElement = document.getElementById("comment-input");
 let host = "https://wedev-api.sky.pro/api/v2/alenka-s/comments";
 const hostReg = 'https://wedev-api.sky.pro/api/user';
 
-export let token;
-export const setToken = (newToken) => {
-    token = newToken;
-};
+let token = 'Bearer asb4c4boc86gasb4c4boc86g37w3cc3bo3b83k4g37k3bk3cg3c03ck4k';
+
 
 export let UserName;
 export function setUserName(newName) {
@@ -45,7 +43,7 @@ export function postComment() {
         method: "POST",
         body: JSON.stringify({
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: token,
             },
             name: nameInputElement.value
                 .replaceAll("&", "&amp;")
@@ -79,12 +77,12 @@ export function postComment() {
 };
 export function loginUser({ login, password }) {
     return fetch(hostReg, {
-      method: "POST",
-      body: JSON.stringify({
-        login,
-        password,
-      }),
+        method: "POST",
+        body: JSON.stringify({
+            login,
+            password,
+        }),
     }).then((response) => {
-      return response.json();
+        return response.json();
     });
-  }
+}
