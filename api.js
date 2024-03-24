@@ -1,27 +1,52 @@
 const nameInputElement = document.getElementById("name-input");
 const commentInputElement = document.getElementById("comment-input");
 
+let host = "https://wedev-api.sky.pro/api/v2/alenka-s/comments";
+const hostReg = 'https://wedev-api.sky.pro/api/user';
+
+export let token;
+export const setToken = (newToken) => {
+    token = newToken;
+};
+
+export let UserName;
+export function setUserName(newName) {
+    UserName = newName;
+}
+
 export function getComment() {
-    return fetch("https://wedev-api.sky.pro/api/v1/alenka-s/comments", {
+    return fetch(host, {
         method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        }
     })
         .then((response) => {
+            if (response.status === 401) {
+                throw new Error('Нет авторизации');
+            }
             if (response.status === 200) {
                 return response.json();
-            } else {
+            }
+            else {
                 throw new Error("failed to get: " + response.status);
             }
         })
+
         .catch((error) => {
+            alert("Произошла ошибка при выполнении запроса");
             console.error("Произошла ошибка при выполнении GET-запроса:", error);
         });
 }
 
 
 export function postComment() {
-    return fetch("https://wedev-api.sky.pro/api/v1/alenka-s/comments", {
+    return fetch(host, {
         method: "POST",
         body: JSON.stringify({
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
             name: nameInputElement.value
                 .replaceAll("&", "&amp;")
                 .replaceAll("<", "&lt")
@@ -31,9 +56,9 @@ export function postComment() {
                 .replaceAll("&", "&amp;")
                 .replaceAll("<", "&lt")
                 .replaceAll(">", "&gt")
-
                 .replaceAll('"', "&quot;"),
             forceError: true,
+
         }),
     })
         .then((response) => {
@@ -50,5 +75,16 @@ export function postComment() {
             }
             return response.json();
         })
-        
+
 };
+export function loginUser({ login, password }) {
+    return fetch(hostReg, {
+      method: "POST",
+      body: JSON.stringify({
+        login,
+        password,
+      }),
+    }).then((response) => {
+      return response.json();
+    });
+  }

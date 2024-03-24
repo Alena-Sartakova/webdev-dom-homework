@@ -31,3 +31,5 @@ export const renderComments = ({ comments }) => {
     replyToComment();
     initEventListeners();
 };
+
+
