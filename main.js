@@ -2,12 +2,15 @@ import { getComment } from "./api.js";
 import { renderComments } from "./renderComments.js";
 import { initAddCommentListeners } from "./listeners.js";
 
+
 // Поиск элементов
 const commentInputElement = document.getElementById("comment-input");
-
+const appElement = document.getElementById("app");
 
 // массив
 let comments = [];
+
+
 
 export function fetchRender() {
     getComment()
@@ -70,6 +73,7 @@ export const initEventListeners = () => {
 renderComments({ comments });
 initEventListeners();
 replyToComment();
+
 
 
 console.log("It works!");

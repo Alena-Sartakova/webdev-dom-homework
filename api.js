@@ -88,3 +88,4 @@ export function loginUser({ login, password }) {
         return response.json();
     });
 }
+

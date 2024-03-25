@@ -1,3 +1,4 @@
+
 import { replyToComment } from "./main.js";
 import { initEventListeners } from "./main.js";
 
@@ -31,5 +32,6 @@ export const renderComments = ({ comments }) => {
     replyToComment();
     initEventListeners();
 };
+
 
 
