@@ -1,28 +1,30 @@
-//  <div class="container">
-//     <div class="add-form">
-//       <h1 class="form-title">Авторизация</h1>
-//       <div class="form-row">
-//         <input class="input" type="text" id="login-input" placeholder="Логин" />
-//         <input class="input" type="text" id="password-input" placeholder="Пароль" />
-//       </div>
-//       <button class="add-form-button" id="login-button">Войти</button>
-//       <button class="add-form-button">Зарегистрироваться</button>
-//     </div>
-//   </div>
+import { loginUser } from "./api.js"
+import { renderApp, setUser } from "./main.js"
 
+export function renderLogin() {
+  const container = document.querySelector('.container')
+  container.innerHTML = `<div class="add-form">
+          <h1 class="form-title">Авторизоваться</h1>
+          <div class="form-row">
+            
+            <input class="input" type="text" id="login-input" placeholder="Логин"  />
+            <input class="input" type="text" id="password-input" placeholder="Пароль" />
+          </div>
+          <button class="add-form-button" id="login-button">Войти</button>
+          <button class="add-form-button">Зарегистрироваться</button>
+             
+        </div> `
+  const loginButton = document.getElementById('login-button')
+  loginButton.addEventListener("click", () => {
+    const login = document.getElementById('login-input').value;
+    const password = document.getElementById('password-input').value;
+    loginUser({ login, password })
+      .then((data) => {
+        setUser(data)
+        renderApp();
+      }
+      )
 
-
-//  <div class="container">
-//     <div class="add-form">
-//       <h1 class="form-title">Зарегистрироваться</h1>
-//       <div class="form-row">
-//         <input class="input" type="text" id="login-input" placeholder="Имя" />
-//         <input class="input" type="text" id="login-input" placeholder="Логин" />
-//         <input class="input" type="text" id="password-input" placeholder="Пароль" />
-//       </div>
-
-//       <button class="add-form-button">Зарегистрироваться</button>
-//       <button class="add-form-button" id="login-button">Войти</button>
-
-//     </div>
-//   </div> 
+  }
+  )
+}

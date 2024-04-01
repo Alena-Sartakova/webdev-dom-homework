@@ -36,7 +36,7 @@ export function initAddCommentListeners() {
             .then(() => {
                 buttonElement.disabled = false;
                 buttonElement.textContent = 'Написать';
-                nameInputElement.value = "";
+                // nameInputElement.value = "";
                 commentInputElement.value = "";
             })
 

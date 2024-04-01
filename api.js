@@ -1,7 +1,7 @@
 const nameInputElement = document.getElementById("name-input");
 const commentInputElement = document.getElementById("comment-input");
 
-let host = "https://wedev-api.sky.pro/api/v2/alenka-s/comments";
+let host = "https://wedev-api.sky.pro/api/v2/alena-s/comments";
 const hostReg = "https://wedev-api.sky.pro/api/user/login";
 
 export let token;
@@ -22,26 +22,30 @@ export function getComment() {
         }
     })
         .then((response) => {
-            if (response.status === 401) {
-                throw new Error('Нет авторизации');
-            }
-            if (response.status === 200) {
-                return response.json();
-            }
-            else {
-                throw new Error("failed to get: " + response.status);
-            }
-        })
-
-        .catch((error) => {
-            // alert("Произошла ошибка при выполнении запроса");
-            console.error("Произошла ошибка при выполнении GET-запроса:", error);
+            if (response.status === 500) {
+                throw new Error("Сервер сломался");
+            };
+            if (response.status === 400) {
+                throw new Error("Нет авторизации");
+            };
+            return response.json();
+        }).catch((error) => {
+            if (error.message === 'Failed to fetch') {
+                alert("Кажется что-то пошло не так, попробуйте позже");
+            };
+            if (error.message === "Сервер упал") {
+                alert('Сервер сломался, попробуйте позже');
+            };
+            if (error.message === "Нет авторизации") {
+                alert("Авторизируйся");
+            };
+            console.warn(error);
         });
 }
 
 
 export function postComment() {
-    return fetch(hostReg, {
+    return fetch(host, {
         method: "POST",
         body: JSON.stringify({
             headers: {
@@ -81,11 +85,31 @@ export function loginUser({ login, password }) {
     return fetch(hostReg, {
         method: "POST",
         body: JSON.stringify({
-            login,
-            password,
+            login: login
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt")
+                .replaceAll(">", "&gt")
+                .replaceAll('"', "&quot;"),
+            password: password
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt")
+                .replaceAll(">", "&gt")
+                .replaceAll('"', "&quot;"),
         }),
     }).then((response) => {
+        if (response.status === 500) {
+            throw new Error("Сервер упал");
+        };
+        if (response.status === 400) {
+            throw new Error("Нет авторизации");
+        };
         return response.json();
-    });
-}
-
+    }).catch((error) => {
+        if (error.message === "Нет авторизации") {
+            alert("Неверные данные");
+        };
+        console.warn(error);
+    }
+    )
+        ;
+};

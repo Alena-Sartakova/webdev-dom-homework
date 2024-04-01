@@ -1,15 +1,20 @@
 import { getComment } from "./api.js";
 import { renderComments } from "./renderComments.js";
 import { initAddCommentListeners } from "./listeners.js";
+import { renderForm } from "./renderForm.js";
+
 
 
 // Поиск элементов
 const commentInputElement = document.getElementById("comment-input");
-const appElement = document.getElementById("app");
+
 
 // массив
 let comments = [];
-
+export let user = null;
+export function setUser(value) {
+    user = value;
+}
 
 
 export function fetchRender() {
@@ -30,9 +35,19 @@ export function fetchRender() {
         })
 };
 
-fetchRender();
+renderApp();
 
-initAddCommentListeners();
+// initAddCommentListeners();
+export function renderApp() {
+    const appElement = document.querySelector(".container");
+    appElement.innerHTML = `<span class="preload">Подождите, идет загрузка комментариев...</span>
+<ul class="comments" id="comments">
+</ul>
+<div class="form"> 
+</div>`
+    fetchRender();
+    renderForm();
+};
 
 //Ответ на коммент
 export const replyToComment = () => {
