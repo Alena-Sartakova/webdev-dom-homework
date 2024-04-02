@@ -1,7 +1,7 @@
 const nameInputElement = document.getElementById("name-input");
 const commentInputElement = document.getElementById("comment-input");
 
-let host = "https://wedev-api.sky.pro/api/v2/alena-s/comments";
+let host = "https://wedev-api.sky.pro/api/v2/alenka-s/comments";
 const hostReg = "https://wedev-api.sky.pro/api/user/login";
 
 export let token;
@@ -18,7 +18,7 @@ export function getComment() {
     return fetch(host, {
         method: "GET",
         headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`
         }
     })
         .then((response) => {
@@ -49,7 +49,7 @@ export function postComment() {
         method: "POST",
         body: JSON.stringify({
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${token}`
             },
             name: nameInputElement.value
                 .replaceAll("&", "&amp;")
@@ -104,12 +104,5 @@ export function loginUser({ login, password }) {
             throw new Error("Нет авторизации");
         };
         return response.json();
-    }).catch((error) => {
-        if (error.message === "Нет авторизации") {
-            alert("Неверные данные");
-        };
-        console.warn(error);
-    }
-    )
-        ;
+    })
 };

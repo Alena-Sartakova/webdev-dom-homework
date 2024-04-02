@@ -22,9 +22,11 @@ export function renderLogin() {
       .then((data) => {
         setUser(data)
         renderApp();
-      }
-      )
-
-  }
-  )
+      }).catch((error) => {
+        if (error.message === "Нет авторизации") {
+          alert("Неверные данные");
+        };
+        console.warn(error);
+      });
+  })
 }

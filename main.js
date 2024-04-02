@@ -37,7 +37,7 @@ export function fetchRender() {
 
 renderApp();
 
-// initAddCommentListeners();
+
 export function renderApp() {
     const appElement = document.querySelector(".container");
     appElement.innerHTML = `<span class="preload">Подождите, идет загрузка комментариев...</span>
@@ -84,7 +84,7 @@ export const initEventListeners = () => {
         });
     }
 };
-
+initAddCommentListeners();
 renderComments({ comments });
 initEventListeners();
 replyToComment();
