@@ -1,4 +1,4 @@
-import { loginUser } from "./api.js"
+import { loginUser, token } from "./api.js"
 import { renderApp, setUser } from "./main.js"
 
 export function renderLogin() {
@@ -20,13 +20,15 @@ export function renderLogin() {
     const password = document.getElementById('password-input').value;
     loginUser({ login, password })
       .then((data) => {
-        setUser(data)
+        setUser(data.user);
         renderApp();
       }).catch((error) => {
         if (error.message === "Нет авторизации") {
           alert("Неверные данные");
         };
         console.warn(error);
-      });
+      })
+
   })
 }
+

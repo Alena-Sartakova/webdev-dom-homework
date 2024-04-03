@@ -1,14 +1,16 @@
 import { postComment } from "./api.js";
 import { fetchRender } from "./main.js";
 
-const buttonElement = document.getElementById("add-button");
-const nameInputElement = document.getElementById("name-input");
-const commentInputElement = document.getElementById("comment-input");
+
 
 
 export function initAddCommentListeners() {
-
+    const buttonElement = document.getElementById("add-button");
+    const nameInputElement = document.getElementById("name-input");
+    const commentInputElement = document.getElementById("comment-input");
     buttonElement.addEventListener("click", () => {
+
+
         nameInputElement.classList.remove("error");
         commentInputElement.classList.remove("error");
 
@@ -28,6 +30,7 @@ export function initAddCommentListeners() {
         buttonElement.disabled = true;
         buttonElement.textContent = 'Добавление...';
         console.log("Начинаем делать запрос");
+
         postComment()
             .then(() => {
                 fetchRender();
@@ -37,7 +40,7 @@ export function initAddCommentListeners() {
                 buttonElement.disabled = false;
                 buttonElement.textContent = 'Написать';
                 // nameInputElement.value = "";
-                commentInputElement.value = "";
+                // commentInputElement.value = "";
             })
 
             .catch((error) => {
@@ -50,6 +53,7 @@ export function initAddCommentListeners() {
                     alert("Имя и/или комментарий составляет менее 3-х символов");
                     return;
                 }
+             
 
                 alert('Произошла ошибка');
                 console.warn(error);

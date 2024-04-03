@@ -1,5 +1,7 @@
-import { user } from "./main.js";
+import { replyToComment, user } from "./main.js";
 import { renderLogin } from "./login.js";
+import { initAddCommentListeners } from "./listeners.js";
+import { renderComments } from "./renderComments.js";
 
 
 
@@ -16,8 +18,13 @@ export function renderForm() {
     
         </div>` : `<div>Чтобы оставить комментарий, <button id="authButton" type="button">авторизуйтесь.</button></div>`
   const button = document.getElementById('authButton')
-  button.addEventListener("click", () => {
-    renderLogin();
+  if (button) {
+    button.addEventListener("click", () => {
+      renderLogin();
+    })
   }
-  )
-}
+  if (user) {
+    initAddCommentListeners();
+  }
+};
+

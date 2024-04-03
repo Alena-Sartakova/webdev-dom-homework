@@ -6,7 +6,7 @@ import { renderForm } from "./renderForm.js";
 
 
 // Поиск элементов
-const commentInputElement = document.getElementById("comment-input");
+
 
 
 // массив
@@ -35,7 +35,7 @@ export function fetchRender() {
         })
 };
 
-renderApp();
+
 
 
 export function renderApp() {
@@ -47,10 +47,12 @@ export function renderApp() {
 </div>`
     fetchRender();
     renderForm();
+
 };
 
 //Ответ на коммент
 export const replyToComment = () => {
+    const commentInputElement = document.getElementById("comment-input");
     const commentBodys = document.querySelectorAll(".comment-body");
     for (const commentBody of commentBodys) {
         commentBody.addEventListener('click', () => {
@@ -84,7 +86,7 @@ export const initEventListeners = () => {
         });
     }
 };
-initAddCommentListeners();
+renderApp();
 renderComments({ comments });
 initEventListeners();
 replyToComment();

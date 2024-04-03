@@ -1,6 +1,3 @@
-const nameInputElement = document.getElementById("name-input");
-const commentInputElement = document.getElementById("comment-input");
-
 let host = "https://wedev-api.sky.pro/api/v2/alenka-s/comments";
 const hostReg = "https://wedev-api.sky.pro/api/user/login";
 
@@ -18,7 +15,7 @@ export function getComment() {
     return fetch(host, {
         method: "GET",
         headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
         }
     })
         .then((response) => {
@@ -45,11 +42,13 @@ export function getComment() {
 
 
 export function postComment() {
+    const nameInputElement = document.getElementById("name-input");
+    const commentInputElement = document.getElementById("comment-input");
     return fetch(host, {
         method: "POST",
         body: JSON.stringify({
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`,
             },
             name: nameInputElement.value
                 .replaceAll("&", "&amp;")
@@ -77,7 +76,9 @@ export function postComment() {
             if (response.status === 400) {
                 throw new Error('Плохой запрос');
             }
+           
             return response.json();
+            
         })
 
 };
