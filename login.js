@@ -1,4 +1,4 @@
-import { loginUser, token } from "./api.js"
+import { loginUser, setToken, token } from "./api.js"
 import { renderApp, setUser } from "./main.js"
 
 export function renderLogin() {
@@ -21,7 +21,10 @@ export function renderLogin() {
     loginUser({ login, password })
       .then((data) => {
         setUser(data.user);
+        setToken(data.user.token);
         renderApp();
+
+        console.log(token);
       }).catch((error) => {
         if (error.message === "Нет авторизации") {
           alert("Неверные данные");

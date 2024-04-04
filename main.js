@@ -1,11 +1,6 @@
 import { getComment } from "./api.js";
 import { renderComments } from "./renderComments.js";
-import { initAddCommentListeners } from "./listeners.js";
 import { renderForm } from "./renderForm.js";
-
-
-
-// Поиск элементов
 
 
 
@@ -88,7 +83,7 @@ export const initEventListeners = () => {
 };
 renderApp();
 renderComments({ comments });
-initEventListeners();
+
 replyToComment();
 
 

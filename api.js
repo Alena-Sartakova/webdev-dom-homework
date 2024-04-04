@@ -76,9 +76,9 @@ export function postComment() {
             if (response.status === 400) {
                 throw new Error('Плохой запрос');
             }
-           
+
             return response.json();
-            
+
         })
 
 };
@@ -105,5 +105,6 @@ export function loginUser({ login, password }) {
             throw new Error("Нет авторизации");
         };
         return response.json();
+
     })
 };
