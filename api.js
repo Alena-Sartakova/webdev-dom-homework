@@ -46,10 +46,11 @@ export function postComment() {
     const commentInputElement = document.getElementById("comment-input");
     return fetch(host, {
         method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
+
             name: nameInputElement.value
                 .replaceAll("&", "&amp;")
                 .replaceAll("<", "&lt")
