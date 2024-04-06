@@ -39,7 +39,8 @@ export function renderLogin() {
         if (error.message === "Сервер сломался") {
           alert("Сервер сломался, попробуй позже");
           return;
-      }
+        }
+        alert('Произошла ошибка');
         console.warn(error);
       })
 

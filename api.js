@@ -99,6 +99,9 @@ export function loginUser({ login, password }) {
                 .replaceAll('"', "&quot;"),
         }),
     }).then((response) => {
+        if (response.status === 200) {
+            return response.json();
+        }
         if (response.status === 500) {
             throw new Error("Сервер сломался");
         };
