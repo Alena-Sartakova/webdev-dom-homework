@@ -100,7 +100,7 @@ export function loginUser({ login, password }) {
         }),
     }).then((response) => {
         if (response.status === 500) {
-            throw new Error("Сервер упал");
+            throw new Error("Сервер сломался");
         };
         if (response.status === 400) {
             throw new Error("Нет авторизации");

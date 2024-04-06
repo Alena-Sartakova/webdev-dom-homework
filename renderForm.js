@@ -1,4 +1,4 @@
-import {  user } from "./main.js";
+import { initEventListeners, user } from "./main.js";
 import { renderLogin } from "./login.js";
 import { initAddCommentListeners } from "./listeners.js";
 

@@ -55,7 +55,7 @@ export const replyToComment = () => {
             const oldComment = commentBody.dataset.text;
             console.log(oldName);
             console.log(oldComment);
-            commentInputElement.value = `${oldName}: ${oldComment} `;
+            commentInputElement.value = `${oldName}: ${oldComment}: `;
         })
     }
 };

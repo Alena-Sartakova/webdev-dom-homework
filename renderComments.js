@@ -1,5 +1,5 @@
 
-import { replyToComment } from "./main.js";
+import { replyToComment, user } from "./main.js";
 import { initEventListeners } from "./main.js";
 
 
@@ -31,7 +31,10 @@ export const renderComments = ({ comments }) => {
 
     listElement.innerHTML = commentsHtml;
     replyToComment();
-    initEventListeners();
+    if (user) {
+
+        initEventListeners();
+    }
 };
 
 

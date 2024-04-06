@@ -39,8 +39,8 @@ export function initAddCommentListeners() {
             .then(() => {
                 buttonElement.disabled = false;
                 buttonElement.textContent = 'Написать';
-                // nameInputElement.value = "";
-                // commentInputElement.value = "";
+
+                commentInputElement.value = "";
             })
 
             .catch((error) => {
@@ -53,7 +53,7 @@ export function initAddCommentListeners() {
                     alert("Имя и/или комментарий составляет менее 3-х символов");
                     return;
                 }
-             
+
 
                 alert('Произошла ошибка');
                 console.warn(error);

@@ -11,13 +11,20 @@ export function renderLogin() {
             <input class="input" type="text" id="password-input" placeholder="Пароль" />
           </div>
           <button class="add-form-button" id="login-button">Войти</button>
-          <button class="add-form-button">Зарегистрироваться</button>
+          
              
         </div> `
-  const loginButton = document.getElementById('login-button')
+  const loginButton = document.getElementById('login-button');
+
   loginButton.addEventListener("click", () => {
     const login = document.getElementById('login-input').value;
     const password = document.getElementById('password-input').value;
+
+    if ((login.trim() == "" && password.trim() == "")) {
+      alert("Пожалуйста, введите логин/пароль");
+      return;
+    };
+
     loginUser({ login, password })
       .then((data) => {
         setUser(data.user);
@@ -29,6 +36,10 @@ export function renderLogin() {
         if (error.message === "Нет авторизации") {
           alert("Неверные данные");
         };
+        if (error.message === "Сервер сломался") {
+          alert("Сервер сломался, попробуй позже");
+          return;
+      }
         console.warn(error);
       })
 
