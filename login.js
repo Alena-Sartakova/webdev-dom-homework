@@ -20,8 +20,12 @@ export function renderLogin() {
     const login = document.getElementById('login-input').value;
     const password = document.getElementById('password-input').value;
 
-    if ((login.trim() == "" && password.trim() == "")) {
-      alert("Пожалуйста, введите логин/пароль");
+    if ((login.trim() == "")) {
+      alert("Пожалуйста, введите логин");
+      return;
+    };
+    if ((password.trim() == "")) {
+      alert("Пожалуйста, введите пароль");
       return;
     };
 
@@ -40,9 +44,12 @@ export function renderLogin() {
           alert("Сервер сломался, попробуй позже");
           return;
         }
-        alert('Произошла ошибка');
+        if (error.message === 'Failed to fetch') {
+          alert("Кажется что-то пошло не так, попробуйте позже");
+        };
+
         console.warn(error);
-      })
+      });
 
   })
 }
