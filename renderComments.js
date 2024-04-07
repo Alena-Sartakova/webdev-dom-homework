@@ -30,10 +30,11 @@ export const renderComments = ({ comments }) => {
     }).join('');
 
     listElement.innerHTML = commentsHtml;
-    replyToComment();
+
     if (user) {
 
         initEventListeners();
+        replyToComment();
     }
 };
 

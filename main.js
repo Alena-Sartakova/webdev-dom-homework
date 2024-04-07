@@ -84,7 +84,7 @@ export const initEventListeners = () => {
 renderApp();
 renderComments({ comments });
 
-replyToComment();
+
 
 
 
