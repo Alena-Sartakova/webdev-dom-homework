@@ -1,13 +1,16 @@
 import { getComment } from "./api.js";
 import { renderComments } from "./renderComments.js";
-import { initAddCommentListeners } from "./listeners.js";
+import { renderForm } from "./renderForm.js";
 
-// Поиск элементов
-const commentInputElement = document.getElementById("comment-input");
 
 
 // массив
 let comments = [];
+export let user = null;
+export function setUser(value) {
+    user = value;
+}
+
 
 export function fetchRender() {
     getComment()
@@ -27,12 +30,24 @@ export function fetchRender() {
         })
 };
 
-fetchRender();
 
-initAddCommentListeners();
+
+
+export function renderApp() {
+    const appElement = document.querySelector(".container");
+    appElement.innerHTML = `<span class="preload">Подождите, идет загрузка комментариев...</span>
+<ul class="comments" id="comments">
+</ul>
+<div class="form"> 
+</div>`
+    fetchRender();
+    renderForm();
+
+};
 
 //Ответ на коммент
 export const replyToComment = () => {
+    const commentInputElement = document.getElementById("comment-input");
     const commentBodys = document.querySelectorAll(".comment-body");
     for (const commentBody of commentBodys) {
         commentBody.addEventListener('click', () => {
@@ -40,7 +55,7 @@ export const replyToComment = () => {
             const oldComment = commentBody.dataset.text;
             console.log(oldName);
             console.log(oldComment);
-            commentInputElement.value = `${oldName}: ${oldComment} `;
+            commentInputElement.value = `${oldName}: ${oldComment}: `;
         })
     }
 };
@@ -66,10 +81,11 @@ export const initEventListeners = () => {
         });
     }
 };
-
+renderApp();
 renderComments({ comments });
-initEventListeners();
-replyToComment();
+
+
+
 
 
 console.log("It works!");

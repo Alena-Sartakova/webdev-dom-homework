@@ -1,10 +1,12 @@
-import { replyToComment } from "./main.js";
+
+import { replyToComment, user } from "./main.js";
 import { initEventListeners } from "./main.js";
 
 
-const listElement = document.getElementById("comments");
+
 
 export const renderComments = ({ comments }) => {
+    const listElement = document.getElementById("comments");
     const commentsHtml = comments.map((comment, index) => {
         return `<li class="comment">
         <div class="comment-header">
@@ -28,6 +30,13 @@ export const renderComments = ({ comments }) => {
     }).join('');
 
     listElement.innerHTML = commentsHtml;
-    replyToComment();
-    initEventListeners();
+
+    if (user) {
+
+        initEventListeners();
+        replyToComment();
+    }
 };
+
+
+
