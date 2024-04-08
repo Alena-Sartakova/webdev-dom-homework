@@ -19,7 +19,7 @@ export function fetchRender() {
             comments = responseData.comments.map((comment) => {
                 return {
                     name: comment.author.name,
-                    time: new Date(comment.date).toLocaleTimeString('sm', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' }),
+                    time: new Date(comment.date),
                     comment: comment.text,
                     likes: comment.likes,
                     isLiked: false,

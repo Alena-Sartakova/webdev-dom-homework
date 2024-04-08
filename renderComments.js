@@ -1,17 +1,19 @@
 
+
 import { replyToComment, user } from "./main.js";
 import { initEventListeners } from "./main.js";
-
+import { format } from "date-fns";
 
 
 
 export const renderComments = ({ comments }) => {
     const listElement = document.getElementById("comments");
     const commentsHtml = comments.map((comment, index) => {
+        const createDate = format(new Date(comment.time), 'yyyy-MM-dd hh.mm.ss');
         return `<li class="comment">
         <div class="comment-header">
             <div>${comment.name}</div>
-            <div>${comment.time}</div>
+            <div>${createDate}</div>
         </div>
         <div class="comment-body" data-text="${comment.comment}" data-name="${comment.name}">
             <div class="comment-text" data-index="${index}">
